@@ -1,45 +1,40 @@
 #include <iostream>
-#include <cmath>
-#include "RSA.h"
+
+void consoleApp(); // function that handles console app (implemented in console.cpp)
+void demo(); // function that handles game demo (implemented in demo.cpp)
 
 using std::cout;
-using std::cin;
 using std::endl;
+using std::cin;
 using std::string;
 
-string viewEncodedText(string encodedText);
-
 int main() {
-    srand(clock());
-    RSA rsa;
-    rsa.printKey();
-
-    string message;
-    string cipherText;
-    string plainText;
-    string choice;
     string input;
 
     while (input != "q") {
-        cout << "\n\nenter some text to encrypt: " << endl;
-        std::getline(cin,message);
+        cout << "Which program would you like to execute?" << endl;
+        cout << "(a) Console app" << endl;
+        cout << "(b) Demo" << endl;
+        getline(cin, input);
 
-        cipherText = rsa.encrypt(message);
-        plainText = rsa.decrypt(cipherText);
-        cout << "cipherText: " << viewEncodedText(cipherText) << endl;
-        cout << "decrypted plainText: " << plainText << endl;
+        if (input == "a") {
+            consoleApp();
+            cout << "--------------------------------------------------------------" << endl;
+            cout << "This is the end of the console app." << endl;
+        }
+        else if (input == "b") {
+            demo();
+            cout << "--------------------------------------------------------------" << endl;
+            cout << "This is the end of the demo." << endl;
+        }
+        else {
+            cout << "Sorry, invalid input." << endl << endl;
+            continue;
+        }
 
-        cout << "Enter 'q' if you would like to stop now, or any other key to continue." << endl;
-        std::getline(cin, input);
+        cout << "Enter 'q' to quit or any other key to go back to the main menu." << endl;
+        getline(cin, input);
     }
 
     return 0;
-}
-
-string viewEncodedText(string encodedText) {
-    string rawTranslation;
-    for (int i = 0; i < encodedText.length(); i+=ASCII_MAX_DIGIT)
-        rawTranslation += (char)std::stoi(encodedText.substr(i,ASCII_MAX_DIGIT));
-
-    return  rawTranslation;
 }
